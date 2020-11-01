@@ -4,13 +4,33 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const templateHtml = require('html-webpack-template')
 const config = require('./src/Config/Config.app')
 const { CleanWebpackPlugin: CleanFolder } = require('clean-webpack-plugin')
-const webpack = require('webpack')
+// const webpack = require('webpack')
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = () => {
   const distPath = 'dist'
 
   const { ENVIRONMENT: environment = 'dev' } = process.env
+
+  const terserConfig = new TerserPlugin({
+    test: /\.js(\?.*)?$/i,
+    terserOptions: {
+      format: {
+        comments: /@license/i,
+      },
+    },
+    extractComments: true,
+  })
+
+  const minifyHtml = () => {
+    if (environment === 'prd') {
+      return {
+        collapseWhitespace: true,
+      }
+    }
+
+    return null
+  }
 
   const htmlPlugin = new HtmlWebpackPlugin({
     template: templateHtml,
@@ -22,12 +42,7 @@ module.exports = () => {
     links: config.links,
     favicon: './src/Assets/favicon.ico',
     inject: false, // it is necessary to avoid duplicate meta tags and to allows html-webpack-template works properly
-    minify:
-      environment === 'prd'
-        ? {
-            collapseWhitespace: true,
-          }
-        : null,
+    minify: minifyHtml(),
   })
 
   const envDictionary = {
@@ -93,6 +108,10 @@ module.exports = () => {
             },
           ],
         },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
       ],
     },
     performance: {
@@ -101,20 +120,7 @@ module.exports = () => {
     devtool: environment === 'prd' ? 'none' : 'source-map',
     optimization: {
       minimize: environment === 'prd',
-      minimizer:
-        environment === 'prd'
-          ? [
-              new TerserPlugin({
-                test: /\.js(\?.*)?$/i,
-                terserOptions: {
-                  format: {
-                    comments: /@license/i,
-                  },
-                },
-                extractComments: true,
-              }),
-            ]
-          : [],
+      minimizer: environment === 'prd' ? [terserConfig] : [],
     },
     entry: './src/index.jsx', // main file to generates the bundle
     output: {
