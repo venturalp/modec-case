@@ -1,18 +1,29 @@
+import { CityList } from 'Commons/city/City.CityList'
 import { LocationMarker } from 'Commons/maps/Maps.LocationMarker'
+import { ErrorMessage } from 'Commons/message/Message.ErrorMessage'
+import { scrollTo } from 'Commons/scroll/Scroll.Helpers'
 import { useOpenweatherServices } from 'Modules/openweather/Openweather.services'
 import React, { useState } from 'react'
 import { MapContainer, TileLayer } from 'react-leaflet'
+import { Element } from 'react-scroll'
 import styled from 'styled-components'
 
 const MapContainerStyled = styled(MapContainer)`
-  width: 80%;
-  height: 80vh;
+  width: 100%;
+  height: 60vh;
   margin: 0 auto;
   overflow: hidden;
   border: 1px solid #999;
+  @media (min-width: 768px) {
+    width: 80%;
+    height: 80vh;
+  }
 `
 const HomeContainer = styled.div`
   text-align: center;
+  & .city-list {
+    margin: 25px auto;
+  }
 `
 
 const SearchButton = styled.div`
@@ -30,14 +41,28 @@ const SearchButton = styled.div`
 export const HomePage = () => {
   const [position, setPosition] = useState()
   const [citiesData, setCitiesData] = useState([])
+  const [errorMessage, setErrorMessage] = useState('')
   const { getAroundCities } = useOpenweatherServices()
 
   const onClickMarker = latlng => setPosition(latlng)
 
   const doSearch = async () => {
+    setErrorMessage('')
+    if (!position) {
+      setErrorMessage('Please check a place in the map first!')
+
+      return
+    }
     const getCities = await getAroundCities(position)
 
-    setCitiesData(getCities.data.list)
+    if (getCities.success) {
+      setCitiesData(getCities.data.list)
+      scrollTo('cities-table')
+    } else {
+      setErrorMessage(
+        'Something wrong trying to fetch cities information, please try again!',
+      )
+    }
   }
 
   return (
@@ -49,26 +74,16 @@ export const HomePage = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
       </MapContainerStyled>
+      <ErrorMessage error={errorMessage} />
       <SearchButton onClick={doSearch}>Search</SearchButton>
-      <table>
-        <tbody>
-          {citiesData?.map(city => (
-            <tr key={city.id}>
-              <td>{city.id}</td>
-              <td>{city.name}</td>
-              <td>
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => console.log(city)}
-                >
-                  see more
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {citiesData?.length > 0 && (
+        <Element name="cities-table">
+          <CityList
+            cities={citiesData}
+            showDetails={city => console.log(city)}
+          />
+        </Element>
+      )}
     </HomeContainer>
   )
 }
