@@ -6,7 +6,7 @@
 
 # 🗺 Modec Case - Cities Weather
 
-This is a case assigned to me to evaluate my front-end skills in a job application process. It consists of displaying a map and allowing users to click and mark a location on the map and then search the 15 surrounding cities and theirs weather (max/min temperatures).
+This is a case assigned to me to evaluate my front-end skills in a job application process. It consists of displaying a map and allowing users to click and mark a location on the map and then search the 15 surrounding cities and their weather (max/min temperatures).
 
 One can access the application running at https://modec-case.netlify.app/
 
