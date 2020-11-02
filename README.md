@@ -17,8 +17,8 @@ Main tools used in this project:
 | ReactJS | Yarn | Webpack | Jest | Testing Library |
 | :-: | :-: | :-: | :-: | :-: |
 | [![React](docs/images/react.png 'React')](https://reactjs.org/) | [![Yarn](docs/images/yarn.png 'Yarn')](https://yarnpkg.com/) | [![Webpack](docs/images/webpack.png 'Webpack')](https://webpack.js.org/) | [![Jest](docs/images/jestlogo.png 'Jest')](https://jestjs.io/en/) | [![TestingLibrary](docs/images/testinglibrary.png 'Testing library')](https://testing-library.com/) |
-| MSW | Zustand | Styled Components |
-| [![MSW](docs/images/msw.png 'MSW')](https://mswjs.io/docs/) | [![Zustand](docs/images/zustand.png 'Zustand')](https://github.com/pmndrs/zustand) | [![StyledComponents](docs/images/styledcomponents.png 'Styled Components')](https://styled-components.com/) |
+| MSW | Zustand | Styled Components | React Leaflet |
+| [![MSW](docs/images/msw.png 'MSW')](https://mswjs.io/docs/) | [![Zustand](docs/images/zustand.png 'Zustand')](https://github.com/pmndrs/zustand) | [![StyledComponents](docs/images/styledcomponents.png 'Styled Components')](https://styled-components.com/) | [![React Leaflet](docs/images/reactleaflet.png 'React Leaflet')](https://react-leaflet.js.org/) |
 
 ## ⚠️ Requirements
 
