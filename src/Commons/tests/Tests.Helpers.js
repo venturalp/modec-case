@@ -2,6 +2,8 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
+import { ThemeProvider } from 'styled-components'
+import { mainTheme } from 'Config/Config.theme'
 
 export const hideErrors = () => {
   console.error = jest.fn()
@@ -13,6 +15,10 @@ export const renderWithRouter = (component, history) => ({
     <Router history={history || createMemoryHistory()}>{component}</Router>,
   ),
 })
+
+export const ThemeWrapper = ({ children }) => (
+  <ThemeProvider theme={mainTheme}>{children}</ThemeProvider>
+)
 
 export const renderWithRouterDocument = (component, history) => ({
   ...render(
