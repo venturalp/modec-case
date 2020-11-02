@@ -44,8 +44,9 @@ describe('test Home Page', () => {
       </ThemeWrapper>,
     )
     server.use(
-      rest.get('http://api.openweathermap.org/data/2.5/find', (req, res, ctx) =>
-        res(ctx.status(400)),
+      rest.get(
+        'https://api.openweathermap.org/data/2.5/find',
+        (req, res, ctx) => res(ctx.status(400)),
       ),
     )
 
