@@ -8,7 +8,7 @@ export const useOpenweatherServices = () => {
   const getAroundCities = async ({ lat, lng }) =>
     axios
       .get(
-        `http://api.openweathermap.org/data/2.5/find?units=metric&lat=${lat}&lon=${lng}&cnt=15&APPID=${apiKey}`,
+        `https://api.openweathermap.org/data/2.5/find?units=metric&lat=${lat}&lon=${lng}&cnt=15&APPID=${apiKey}`,
         { showLoading: true },
       )
       .then(response => ({ success: true, data: response.data }))
