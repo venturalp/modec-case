@@ -13,6 +13,7 @@
     "lint-fix": "eslint --ext .jsx,.js src --fix --quiet",
     "lint": "eslint src/**/*.{js,jsx}",
     "test": "jest -o --maxWorkers=4",
+    "test:all": "jest --maxWorkers=4",
     "test:update": "jest -o -u --maxWorkers=4",
     "test:update:all": "jest -u --maxWorkers=4",
     "coverage": "jest --coverage --maxWorkers=4 && istanbul-badges-readme",
