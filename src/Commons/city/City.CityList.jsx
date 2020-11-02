@@ -38,7 +38,7 @@ const CityTable = styled.table`
 `
 
 export const CityList = ({ cities, showDetails }) => (
-  <CityTable className="city-list">
+  <CityTable className="city-list" data-testid="cityList">
     <thead>
       <tr>
         <th>ID</th>

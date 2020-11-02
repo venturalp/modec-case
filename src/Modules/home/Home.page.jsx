@@ -1,8 +1,9 @@
 import { CityList } from 'Commons/city/City.CityList'
+import { ModalCity } from 'Commons/city/City.ModalCity'
 import { LocationMarker } from 'Commons/maps/Maps.LocationMarker'
 import { ErrorMessage } from 'Commons/message/Message.ErrorMessage'
 import { scrollTo } from 'Commons/scroll/Scroll.Helpers'
-import { useOpenweatherServices } from 'Modules/openweather/Openweather.services'
+import { useOpenweatherServices } from 'Modules/openweather/Openweather.Services'
 import React, { useState } from 'react'
 import { MapContainer, TileLayer } from 'react-leaflet'
 import { Element } from 'react-scroll'
@@ -11,9 +12,10 @@ import styled from 'styled-components'
 const MapContainerStyled = styled(MapContainer)`
   width: 100%;
   height: 60vh;
-  margin: 0 auto;
+  margin: 20px auto 0;
   overflow: hidden;
   border: 1px solid #999;
+  z-index: 0;
   @media (min-width: 768px) {
     width: 80%;
     height: 80vh;
@@ -40,7 +42,9 @@ const SearchButton = styled.div`
 
 export const HomePage = () => {
   const [position, setPosition] = useState()
+  const [cityData, setCityData] = useState({})
   const [citiesData, setCitiesData] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const { getAroundCities } = useOpenweatherServices()
 
@@ -49,7 +53,7 @@ export const HomePage = () => {
   const doSearch = async () => {
     setErrorMessage('')
     if (!position) {
-      setErrorMessage('Please check a place in the map first!')
+      setErrorMessage('Please check a place on the map first!')
 
       return
     }
@@ -65,6 +69,13 @@ export const HomePage = () => {
     }
   }
 
+  const openModalCityDetails = city => {
+    setCityData(city)
+    setIsModalOpen(true)
+  }
+
+  const onCloseModal = () => setIsModalOpen(false)
+
   return (
     <HomeContainer>
       <MapContainerStyled center={{ lat: -23.5486, lng: -46.6382 }} zoom={13}>
@@ -75,15 +86,20 @@ export const HomePage = () => {
         />
       </MapContainerStyled>
       <ErrorMessage error={errorMessage} />
-      <SearchButton onClick={doSearch}>Search</SearchButton>
+      <SearchButton role="button" onClick={doSearch}>
+        Search
+      </SearchButton>
       {citiesData?.length > 0 && (
         <Element name="cities-table">
           <CityList
             cities={citiesData}
-            showDetails={city => console.log(city)}
+            showDetails={city => {
+              openModalCityDetails(city)
+            }}
           />
         </Element>
       )}
+      <ModalCity open={isModalOpen} onClose={onCloseModal} {...cityData} />
     </HomeContainer>
   )
 }

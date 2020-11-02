@@ -1,17 +1,10 @@
 import '@testing-library/jest-dom/extend-expect'
+import { server } from 'Commons/tests/Tests.MockServer'
 
-global.mockPush = jest.fn()
-global.pathname = '/'
-
-jest.setTimeout(15000)
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    location: { pathname: global.pathname },
-    push: global.mockPush,
-    listen(func) {
-      func(this.location)
-    },
-  }),
-}))
+beforeAll(() => {
+  server.listen()
+})
+afterEach(() => {
+  server.resetHandlers()
+})
+afterAll(() => server.close())
