@@ -22,6 +22,7 @@ const CityTable = styled.table`
     }
   }
   & div[role='button'] {
+    cursor: pointer;
     font-size: ${props => props.theme.pxToRem(11)};
     font-weight: bold;
   }
