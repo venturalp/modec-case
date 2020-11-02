@@ -81,7 +81,7 @@ For tests this application uses [Jest](https://jestjs.io/en/) and [React testing
 
 Jest setup is located in `jest.config.js` file where one can see that a file `setupTests.js` is being used, this file basically defines a few useful mocks.
 
-One has a few helpers to use on tests located [here](/src/Commons/testes/Tests.Helpers.js): `Commons/tests/Tests.Helpers.js`
+One has a few helpers to use on tests located [here](/src/Commons/tests/Tests.Helpers.js): `Commons/tests/Tests.Helpers.js`
 
 Running tests:
 
